@@ -73,7 +73,7 @@ dotnet build
 ### 3. Apply migrations & run
 
 ```bash
-cd RentalApp.Api
+cd RentalApp
 dotnet ef database update
 dotnet run
 ```
