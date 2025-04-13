@@ -13,6 +13,10 @@ public class RentalController(IMediator mediator) : ControllerBase
 {
     private readonly IMediator _mediator = mediator;
 
+    /// <summary>
+    /// Get all rentals
+    /// </summary>
+    /// <returns>List of RentalDTO</returns>
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -20,6 +24,13 @@ public class RentalController(IMediator mediator) : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Check price
+    /// </summary>
+    /// <param name="carId"></param>
+    /// <param name="startDate"></param>
+    /// <param name="endDate"></param>
+    /// <returns>PriceDto</returns>
     [HttpGet("{carId:int}/calculate-price")]
     public async Task<IActionResult> CalculateRentalPrice(int carId, [FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
     {
@@ -34,7 +45,7 @@ public class RentalController(IMediator mediator) : ControllerBase
     }
 
     /// <summary>
-    /// Crea un nuevo alquiler
+    /// Create new rental
     /// </summary>
     [HttpPost]
     public async Task<ActionResult<RentalDto>> CreateRental([FromBody] CreateRentalCommand command)
@@ -44,7 +55,7 @@ public class RentalController(IMediator mediator) : ControllerBase
     }
 
     /// <summary>
-    /// Marca un alquiler como devuelto
+    /// Return vehicle
     /// </summary>
     [HttpPut("{id}/return")]
     public async Task<ActionResult<RentalDto>> ReturnRental(int id, [FromQuery] DateTime returnDate)

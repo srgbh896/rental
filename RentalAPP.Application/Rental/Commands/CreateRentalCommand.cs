@@ -27,6 +27,8 @@ public class CreateRentalCommandHandler(
         var car = await _carRepository.GetByIdAsync(request.CarId)
                   ?? throw new Exception("Car not found");
 
+        if (car.Stock <= 0) { throw new Exception("Car not available."); }
+
         var customer = await _customerRepository.GetByIdAsync(request.CustomerId)
                        ?? throw new Exception("Customer not found");
 
@@ -43,6 +45,7 @@ public class CreateRentalCommandHandler(
             EndDate = request.EndDate,
             PaidAmount = price
         };
+        car.Stock--;
         customer.LoyaltyPoints += GetLoyaltyPoints(car.Type);
         await _rentalRepository.AddAsync(rental);
         await _customerRepository.SaveChangesAsync();
